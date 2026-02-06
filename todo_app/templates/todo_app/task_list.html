@@ -1,0 +1,49 @@
+{% extends 'todo_app/base.html' %}
+
+{% block title %}Tasks - To-Do App{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Task List</h2>
+    <a href="{% url 'task_create' %}" class="btn btn-primary">Add New Task</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Assigned User</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>
+                        <span
+                            class="badge {% if task.status == 'Completed' %}bg-success{% elif task.status == 'In Progress' %}bg-warning{% else %}bg-secondary{% endif %}">
+                            {{ task.status }}
+                        </span>
+                    </td>
+                    <td>{{ task.assigned_user.username }}</td>
+                    <td>{{ task.created_date|date:"M j, Y" }}</td>
+                    <td>
+                        <a href="{% url 'task_edit' task.pk %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                        <a href="{% url 'task_delete' task.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No tasks found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
