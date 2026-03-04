@@ -85,6 +85,18 @@ DATABASES = {
     }
 }
 
+# MySQL config (uncomment when MySQL server is running)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'todo_db',
+#         'USER': 'root',
+#         'PASSWORD': '',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
 
 
 AUTH_PASSWORD_VALIDATORS = []

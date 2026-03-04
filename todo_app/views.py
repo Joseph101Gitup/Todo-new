@@ -48,39 +48,56 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+from django.db.models import Q
+
 @login_required
 def task_list(request):
-    tasks = Task.objects.all()
+    if request.user.is_superuser:
+        # Admin sees tasks assigned to them OR created by them
+        tasks = Task.objects.filter(Q(assigned_user=request.user) | Q(created_by=request.user))
+    else:
+        # Normal user sees only tasks assigned to them
+        tasks = Task.objects.filter(assigned_user=request.user)
     return render(request, 'todo_app/task_list.html', {'tasks': tasks})
 
 @login_required
 def task_create(request):
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskForm(request.POST, user=request.user)
         if form.is_valid():
-            task = form.save()
+            task = form.save(commit=False)
+            task.created_by = request.user
+            task.save()
             messages.success(request, 'Task created successfully.')
             return redirect('task_list')
     else:
-        form = TaskForm()
+        form = TaskForm(user=request.user)
     return render(request, 'todo_app/task_form.html', {'form': form, 'title': 'Create Task'})
 
 @login_required
 def task_edit(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+    if request.user.is_superuser:
+        task = get_object_or_404(Task, Q(pk=pk) & (Q(assigned_user=request.user) | Q(created_by=request.user)))
+    else:
+        task = get_object_or_404(Task, pk=pk, assigned_user=request.user)
+        
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+        form = TaskForm(request.POST, instance=task, user=request.user)
         if form.is_valid():
             form.save()
             messages.success(request, 'Task updated successfully.')
             return redirect('task_list')
     else:
-        form = TaskForm(instance=task)
+        form = TaskForm(instance=task, user=request.user)
     return render(request, 'todo_app/task_form.html', {'form': form, 'title': 'Edit Task'})
 
 @login_required
 def task_delete(request, pk):
-    task = get_object_or_404(Task, pk=pk)
+    if request.user.is_superuser:
+        task = get_object_or_404(Task, Q(pk=pk) & (Q(assigned_user=request.user) | Q(created_by=request.user)))
+    else:
+        task = get_object_or_404(Task, pk=pk, assigned_user=request.user)
+        
     if request.method == 'POST':
         task.delete()
         messages.success(request, 'Task deleted successfully.')

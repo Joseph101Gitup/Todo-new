@@ -1,0 +1,57 @@
+.admin-dashboard {
+    animation: fadeIn 0.4s ease-in;
+}
+
+.admin-card {
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+/* Table rows */
+.fade-in-row {
+    animation: slideUp 0.3s ease forwards;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+}
+
+/* Buttons */
+.action-btn {
+    border-radius: 20px;
+    padding: 4px 14px;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Badge */
+.badge {
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -1,0 +1,148 @@
+﻿python : Creating 
+test database for 
+alias 'default' 
+('test_todo_db')...
+At line:1 char:1
++ python manage.py 
+test todo_app -v 2 > 
+test_results.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (Creatin   
+ g test d...st_to    
+do_db')...:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+
+Found 4 test(s).
+Operations to perform:
+  Synchronize unmigrated apps: messages, staticfiles
+  Apply all migrations: admin, auth, contenttypes, sessions, todo_app
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0001_initial... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying todo_app.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying sessions.0001_initial... OK
+  Applying todo_app.0002_task_created_by... OK
+System check 
+identified some 
+issues:
+
+WARNINGS:
+?: (mysql.W002) 
+MySQL Strict Mode is 
+not set for database 
+connection 'default'
+	HINT: MySQL's 
+Strict Mode fixes 
+many data integrity 
+problems in MySQL, 
+such as data 
+truncation upon 
+insertion, by 
+escalating warnings 
+into errors. It is 
+strongly recommended 
+you activate it. 
+See: https://docs.dja
+ngoproject.com/en/6.0
+/ref/databases/#mysql
+-sql-mode
+
+System check 
+identified 1 issue 
+(0 silenced).
+test_form_excludes_ad
+min_for_normal_users 
+(todo_app.tests.TaskV
+isibilityTests.test_f
+orm_excludes_admin_fo
+r_normal_users) ... 
+ok
+test_form_includes_ad
+min_for_admins (todo_
+app.tests.TaskVisibil
+ityTests.test_form_in
+cludes_admin_for_admi
+ns) ... ok
+test_registration_wit
+h_details (todo_app.t
+ests.TaskVisibilityTe
+sts.test_registration
+_with_details) ... 
+FAIL
+test_task_list_visibi
+lity (todo_app.tests.
+TaskVisibilityTests.t
+est_task_list_visibil
+ity) ... ok
+
+=====================
+=====================
+=====================
+=======
+FAIL: test_registrati
+on_with_details (todo
+_app.tests.TaskVisibi
+lityTests.test_regist
+ration_with_details)
+---------------------
+---------------------
+---------------------
+-------
+Traceback (most 
+recent call last):
+  File "D:\Notes 
+MCA\Sem 2\FullStack\T
+odo_New\todo_app\test
+s.py", line 58, in te
+st_registration_with_
+details
+    self.assertEqual(
+response.status_code,
+ 302)
+    ~~~~~~~~~~~~~~~~^
+^^^^^^^^^^^^^^^^^^^^^
+^^^^^
+AssertionError: 200 
+!= 302
+
+---------------------
+---------------------
+---------------------
+-------
+Ran 4 tests in 
+10.277s
+
+FAILED (failures=1)
+Destroying test 
+database for alias 
+'default' 
+('test_todo_db')...
+
+  Applying todo_app.0003_customuser_phone_number... OK

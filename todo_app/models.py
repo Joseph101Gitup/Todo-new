@@ -4,6 +4,7 @@ from django.utils import timezone
 
 class CustomUser(AbstractUser):
     is_approved = models.BooleanField(default=False)
+    phone_number = models.CharField(max_length=15, blank=True)
 
     def __str__(self):
         return self.username
@@ -19,6 +20,7 @@ class Task(models.Model):
     description = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     assigned_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='tasks')
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='created_tasks', null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
