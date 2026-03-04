@@ -3,180 +3,95 @@
 {% block title %}Welcome to Django To-Do - Organize Your Life{% endblock %}
 
 {% block content %}
-<style>
-    :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --accent-color: #00d2ff;
-    }
-
-    .hero-section {
-        padding: 100px 0;
-        background: var(--primary-gradient);
-        color: white;
-        border-radius: 30px;
-        margin-bottom: 50px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .hero-section::before {
-        content: '';
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 80%);
-        animation: rotate 20s linear infinite;
-        pointer-events: none;
-    }
-
-    .relative {
-        position: relative;
-        z-index: 1;
-    }
-
-    @keyframes rotate {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    .glass-card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 30px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .glass-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        color: var(--accent-color);
-    }
-
-    .cta-button {
-        padding: 15px 40px;
-        font-size: 1.2rem;
-        font-weight: bold;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .cta-button:hover {
-        transform: scale(1.05);
-        filter: brightness(1.1);
-    }
-
-    .floating {
-        animation: floating 3s ease-in-out infinite;
-    }
-
-    @keyframes floating {
-        0% {
-            transform: translate(0, 0px);
-        }
-
-        50% {
-            transform: translate(0, 15px);
-        }
-
-        100% {
-            transform: translate(0, -0px);
-        }
-    }
-
-    .hero-text h1 {
-        font-weight: 800;
-        font-size: 4rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-</style>
-
-<div class="hero-section text-center">
-    <div class="container relative">
-        <div class="row align-items-center">
-            <div class="col-lg-12 hero-text mb-5">
-                <h1 class="display-1 mb-4 floating">Organize Effortlessly.</h1>
-                <p class="lead fs-3 mb-5">The ultimate tool for productivity, team collaboration, and task mastery.</p>
-                {% if not user.is_authenticated %}
-                <a href="{% url 'register' %}" class="btn btn-light btn-lg cta-button me-3 shadow-sm">Get Started
-                    Free</a>
-                <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg cta-button shadow-sm">Learn More</a>
-                {% else %}
-                <a href="{% url 'task_list' %}" class="btn btn-light btn-lg cta-button shadow-sm">Go to My Tasks</a>
-                {% endif %}
+<div class="row min-vh-75 align-items-center py-5">
+    <div class="col-lg-6 mb-5 mb-lg-0">
+        <h1 class="display-3 fw-800 mb-4"
+            style="font-family: 'Outfit', sans-serif; letter-spacing: -2px; line-height: 1.1;">
+            Master Your Day, <span class="text-primary">Achieve Your Goals.</span>
+        </h1>
+        <p class="lead text-muted mb-5 fs-4">
+            Experience the next generation of productivity. Simple, powerful, and beautifully designed for individuals
+            and teams alike.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+            {% if not user.is_authenticated %}
+            <a href="{% url 'register' %}" class="btn-premium">Get Started Free — It's Fast</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary px-4 py-3 border-2 rounded-3 fw-600">Explore
+                Features</a>
+            {% else %}
+            <a href="{% url 'task_list' %}" class="btn-premium">Go to My Task Board</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-6 position-relative">
+        <div class="premium-card p-4 glass animate-fade-in" style="transform: rotate(-2deg); background: white;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h5 class="fw-bold m-0">Project Sprint</h5>
+                <span class="status-badge status-in-progress">In Progress</span>
+            </div>
+            <div class="mb-3">
+                <div class="fw-600 mb-1">Design System Update</div>
+                <div class="text-muted small">Update HSL color tokens across all components...</div>
+            </div>
+            <div class="progress mb-3" style="height: 6px; border-radius: 10px;">
+                <div class="progress-bar" style="width: 65%; border-radius: 10px;"></div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <div class="rounded-circle bg-primary" style="width: 24px; height: 24px;"></div>
+                <div class="small fw-500">Assigned to me</div>
+            </div>
+        </div>
+        <div class="premium-card p-3 glass position-absolute"
+            style="bottom: -30px; left: -20px; width: 200px; transform: rotate(5deg);">
+            <div class="d-flex align-items-center gap-2">
+                <span class="fs-4">✅</span>
+                <span class="fw-bold">Task Done!</span>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container">
-    <div class="row text-center g-4 mb-5">
+<div class="container py-5">
+    <div class="row g-4 text-center">
         <div class="col-md-4">
-            <div class="glass-card h-100">
-                <div class="feature-icon">🚀</div>
-                <h3>Lightning Fast</h3>
-                <p class="text-muted">Experience real-time performance and seamless task management without the lag.</p>
+            <div class="premium-card p-5 h-100">
+                <div class="fs-1 mb-3">🚀</div>
+                <h4 class="fw-bold">Ultra Fast</h4>
+                <p class="text-muted">Built on Django's high-performance architecture for instant task management.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="glass-card h-100">
-                <div class="feature-icon">🛡️</div>
-                <h3>Secure by Design</h3>
-                <p class="text-muted">Built on Django's robust framework, keeping your data safe and protected.</p>
+            <div class="premium-card p-5 h-100">
+                <div class="fs-1 mb-3">🛡️</div>
+                <h4 class="fw-bold">Enterprise Grade</h4>
+                <p class="text-muted">Security first approach with role-based access and admin verification.</p>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="glass-card h-100">
-                <div class="feature-icon">🤝</div>
-                <h3>Team Ready</h3>
-                <p class="text-muted">Assign tasks, track progress, and collaborate with your entire team effortlessly.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <div class="row align-items-center py-5">
-        <div class="col-md-6">
-            <h2 class="display-4 fw-bold mb-4">Why choose Django To-Do?</h2>
-            <ul class="list-unstyled">
-                <li class="mb-3">✅ <strong>Admin Approval System:</strong> Controlled environment for teams.</li>
-                <li class="mb-3">✅ <strong>Task Status Tracking:</strong> Pending, In Progress, or Completed.</li>
-                <li class="mb-3">✅ <strong>Clean UI:</strong> Beautifully designed for focused productivity.</li>
-                <li class="mb-3">✅ <strong>Scalable:</strong> Ready to handle thousands of tasks smoothly.</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <div class="glass-card" style="background: white; color: #333;">
-                <h4 class="mb-4">"This app changed the way our team works. Highly recommended!"</h4>
-                <div class="d-flex align-items-center">
-                    <div class="bg-primary rounded-circle me-3" style="width: 50px; height: 50px;"></div>
-                    <div>
-                        <strong>Alex Rivera</strong><br>
-                        <small class="text-muted">Lead Developer @ TechCorp</small>
-                    </div>
-                </div>
+            <div class="premium-card p-5 h-100">
+                <div class="fs-1 mb-3">💎</div>
+                <h4 class="fw-bold">Modern UI</h4>
+                <p class="text-muted">A interface that doesn't just work, but feels amazing to use every single day.</p>
             </div>
         </div>
     </div>
 </div>
 
-<footer class="py-5 text-center mt-5 border-top">
-    <p class="text-muted">&copy; 2026 Django To-Do. Build with Passion & Django.</p>
+<div class="py-5 mt-5">
+    <div class="premium-card p-5 glass text-center border-0" style="background: var(--primary); color: white;">
+        <h2 class="display-5 fw-bold mb-4">Ready to boost your productivity?</h2>
+        <p class="lead mb-5 opacity-75">Join thousands of users who are organizing their life with To-Do Master.</p>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}"
+            class="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold text-primary shadow-lg">Create Your Account</a>
+        {% else %}
+        <a href="{% url 'task_list' %}"
+            class="btn btn-light btn-lg px-5 py-3 rounded-pill fw-bold text-primary shadow-lg">Start Managing Tasks</a>
+        {% endif %}
+    </div>
+</div>
+
+<footer class="py-5 text-center mt-5 text-muted small">
+    &copy; 2026 To-Do Master. Powered by Django & Premium Design.
 </footer>
 {% endblock %}

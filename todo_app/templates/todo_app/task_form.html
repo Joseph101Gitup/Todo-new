@@ -3,24 +3,47 @@
 {% block title %}{{ title }} - To-Do App{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card p-4">
-            <h2 class="mb-4">{{ title }}</h2>
+<div class="row justify-content-center align-items-center min-vh-75">
+    <div class="col-md-7">
+        <div class="premium-card p-5 glass animate-fade-in">
+            <div class="mb-5">
+                <h2 class="fw-800 mb-2" style="font-family: 'Outfit', sans-serif;">{{ title }}</h2>
+                <p class="text-muted">Enter task details below</p>
+            </div>
             <form method="post">
                 {% csrf_token %}
-                {% for field in form %}
-                <div class="mb-3">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors }}</div>
-                    {% endif %}
+                <div class="row">
+                    {% for field in form %}
+                    <div
+                        class="col-md-{% if field.name == 'title' or field.name == 'description' %}12{% else %}6{% endif %} mb-4">
+                        <label class="form-label fw-600 small text-uppercase" style="letter-spacing: 1px;">{{field.label }}</label>
+                        {% if field.name == 'description' %}
+                        <textarea name="{{ field.name }}" class="form-control form-control-premium" rows="4"
+                            placeholder="{{ field.label }}">{% if field.value %}{{ field.value }}{% endif %}</textarea>
+                        {% elif field.name == 'status' or field.name == 'assigned_user' %}
+                        <select name="{{ field.name }}" class="form-select form-control-premium">
+                            {% for choice_value, choice_label in field.field.choices %}
+                            <option value="{{ choice_value }}"
+                                {% if field.value == choice_value %}selected{% endif %}>
+                                {{ choice_label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        {% else %}
+                        <input type="text" name="{{ field.name }}" class="form-control form-control-premium"
+                            value="{% if field.value %}{{ field.value }}{% endif %}" placeholder="{{ field.label }}">
+                        {% endif %}
+
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors|first }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">Save Task</button>
-                    <a href="{% url 'task_list' %}" class="btn btn-outline-secondary">Cancel</a>
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn-premium px-5">Save Task Information</button>
+                    <a href="{% url 'task_list' %}"
+                        class="btn btn-outline-secondary px-4 py-3 border-2 rounded-3 fw-600">Cancel</a>
                 </div>
             </form>
         </div>

@@ -3,27 +3,35 @@
 {% block title %}Register - To-Do App{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-4">
-        <div class="card p-4">
-            <h2 class="text-center mb-4">Register</h2>
+<div class="row justify-content-center align-items-center min-vh-75">
+    <div class="col-md-6">
+        <div class="premium-card p-5 glass animate-fade-in">
+            <div class="text-center mb-5">
+                <h2 class="fw-800 mb-2" style="font-family: 'Outfit', sans-serif;">Create Account</h2>
+                <p class="text-muted">Join the productivity revolution</p>
+            </div>
             <form method="post">
                 {% csrf_token %}
-                {% for field in form %}
-                <div class="mb-3">
-                    {{ field.label_tag }}
-                    <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
-                        class="form-control" placeholder="{{ field.label }}">
-                    {% if field.errors %}
-                    <div class="text-danger small">{{ field.errors }}</div>
-                    {% endif %}
+                <div class="row">
+                    {% for field in form %}
+                    <div
+                        class="col-md-{% if field.name == 'username' or field.name == 'email' %}12{% else %}6{% endif %} mb-4">
+                        <label class="form-label fw-600 small text-uppercase" style="letter-spacing: 1px;">{{
+                            field.label }}</label>
+                        <input type="{{ field.field.widget.input_type|default:'text' }}" name="{{ field.name }}"
+                            class="form-control form-control-premium" placeholder="{{ field.label }}" required>
+                        {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors|first }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-success w-100">Register</button>
+                <button type="submit" class="btn-premium w-100 py-3 mt-3">Register Account</button>
             </form>
-            <p class="text-center mt-3">
-                Already have an account? <a href="{% url 'login' %}">Login here</a>
-            </p>
+            <div class="text-center mt-5 pt-3 border-top">
+                <p class="text-muted small">Already part of the team? <a href="{% url 'login' %}"
+                        class="fw-bold text-primary text-decoration-none">Sign In</a></p>
+            </div>
         </div>
     </div>
 </div>

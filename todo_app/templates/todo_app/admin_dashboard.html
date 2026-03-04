@@ -5,61 +5,69 @@
 {% block content %}
 <div class="admin-dashboard">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-semibold">Pending User Approvals</h2>
-        <span class="badge bg-primary px-3 py-2">
-            {{ users|length }} Pending
-        </span>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
+        <div>
+            <h1 class="fw-800 m-0" style="font-family: 'Outfit', sans-serif; letter-spacing: -1px;">Admin Hub</h1>
+            <p class="text-muted m-0">Review and approve new user registrations</p>
+        </div>
+        <div class="glass px-4 py-2 rounded-pill border-0 shadow-sm border-start border-primary border-4">
+            <span class="fw-bold text-primary">{{ users|length }}</span> <span class="text-muted small">Pending
+                Approvals</span>
+        </div>
     </div>
 
-    <div class="card admin-card">
-        <div class="card-body p-0">
+    <div class="premium-card glass overflow-hidden border-0">
+        <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+                <thead style="background: rgba(248, 250, 252, 0.5);">
                     <tr>
-                        <th>Username</th>
-                        <th>Date Joined</th>
-                        <th class="text-center">Actions</th>
+                        <th class="px-4 py-3 border-0 small text-uppercase fw-700 text-muted">User Profile</th>
+                        <th class="px-4 py-3 border-0 small text-uppercase fw-700 text-muted">Registration Access</th>
+                        <th class="px-4 py-3 border-0 small text-uppercase fw-700 text-muted text-end">Management</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for user in users %}
-                    <tr class="fade-in-row">
-                        <td>
-                            <strong>{{ user.username }}</strong>
+                    <tr class="animate-fade-in" style="animation-delay: {{ forloop.counter0|add:1 }}00ms;">
+                        <td class="px-4 py-4 border-0">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle bg-light d-flex align-items-center justify-content-center fw-bold text-primary"
+                                    style="width: 44px; height: 44px;">
+                                    {{ user.username|slice:":1"|upper }}
+                                </div>
+                                <div>
+                                    <div class="fw-700 text-dark">{{ user.username }}</div>
+                                    <div class="text-muted small">{{ user.email }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <td>
-                            <span class="text-muted">
-                                {{ user.date_joined|date:"M j, Y" }}
-                            </span>
+                        <td class="px-4 py-4 border-0">
+                            <div class="small text-muted mb-1">Requested on</div>
+                            <div class="fw-600 small">{{ user.date_joined|date:"M j, Y — H:i" }}</div>
                         </td>
-                        <td class="text-center">
-                            <form method="post" class="d-inline action-form">
+                        <td class="px-4 py-4 border-0 text-end">
+                            <form method="post" class="d-inline gap-2">
                                 {% csrf_token %}
                                 <input type="hidden" name="user_id" value="{{ user.id }}">
-
-                                <button type="submit"
-                                        name="action"
-                                        value="approve"
-                                        class="btn btn-success btn-sm action-btn"
-                                        onclick="return confirmAction('approve', '{{ user.username }}')">
-                                    ✓ Approve
+                                <button type="submit" name="action" value="approve"
+                                    class="btn btn-success btn-sm rounded-pill px-3 fw-bold me-2 shadow-sm border-0">
+                                    Verify Access
                                 </button>
-
-                                <button type="submit"
-                                        name="action"
-                                        value="reject"
-                                        class="btn btn-danger btn-sm action-btn"
-                                        onclick="return confirmAction('reject', '{{ user.username }}')">
-                                    ✕ Reject
+                                <button type="submit" name="action" value="reject"
+                                    class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold border-2">
+                                    Terminate
                                 </button>
                             </form>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="3" class="text-center text-muted py-4">
-                            🎉 No pending user registrations
+                        <td colspan="3" class="text-center py-5">
+                            <div class="py-4">
+                                <div class="fs-1 mb-3">✅</div>
+                                <h4 class="fw-bold">All caught up!</h4>
+                                <p class="text-muted m-0">There are no pending user approvals at this moment.</p>
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}
@@ -71,12 +79,12 @@
 </div>
 
 <script>
-function confirmAction(action, username) {
-    return confirm(
-        action === 'approve'
-            ? `Approve user "${username}"?`
-            : `Reject user "${username}"? This cannot be undone.`
-    );
-}
+    function confirmAction(action, username) {
+        return confirm(
+            action === 'approve'
+                ? `Approve user "${username}"?`
+                : `Reject user "${username}"? This cannot be undone.`
+        );
+    }
 </script>
 {% endblock %}
